@@ -1,0 +1,32 @@
+{
+  "ssd-mobilenet-v2": {
+    "model_name": "ssd_mobilenet_v2_320x320_coco17_tpu-8",
+    "base_pipeline_file": "ssd_mobilenet_v2_320x320_coco17_tpu-8.config",
+    "pretrained_checkpoint": "ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz"
+  },
+  "efficientdet-d0": {
+    "model_name": "efficientdet_d0_coco17_tpu-32",
+    "base_pipeline_file": "ssd_efficientdet_d0_512x512_coco17_tpu-8.config",
+    "pretrained_checkpoint": "efficientdet_d0_coco17_tpu-32.tar.gz"
+  },
+  "ssd-mobilenet-v2-fpnlite-320": {
+    "model_name": "ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8",
+    "base_pipeline_file": "ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8.config",
+    "pretrained_checkpoint": "ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8.tar.gz"
+  },
+  "faster-rcnn-inception-v2": {
+    "model_name": "faster_rcnn_inception_v2_coco_2018_01_28",
+    "base_pipeline_file": "faster_rcnn_inception_v2_coco.config",
+    "pretrained_checkpoint": "faster_rcnn_inception_v2_coco_2018_01_28.tar.gz"
+  },
+  "mask-rcnn-inception-resnet-v2": {
+    "model_name": "mask_rcnn_inception_resnet_v2_atrous_coco_2018_01_28",
+    "base_pipeline_file": "mask_rcnn_inception_resnet_v2_atrous_coco.config",
+    "pretrained_checkpoint": "mask_rcnn_inception_resnet_v2_atrous_coco_2018_01_28.tar.gz"
+  },
+  "yolov4": {
+    "model_name": "yolov4",
+    "base_pipeline_file": "yolov4.config",
+    "pretrained_checkpoint": "yolov4.tar.gz"
+  }
+}
