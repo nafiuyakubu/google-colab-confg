@@ -36,7 +36,7 @@ download_file_from_repo() {
 # label_csv="${base_dir}/labelmap.txt"
 
 ############------[Step 1: Install TensorFlow Object Detection Dependencies]-------############
-!pip uninstall Cython -y # Temporary fix for "No module named 'object_detection'" error
+pip uninstall Cython -y # Temporary fix for "No module named 'object_detection'" error
 # -----------------(Download)----------------- #
 repo_url="https://github.com/tensorflow/models" # Define the repository URL
 clone_dir="${models_dir}" # Define Destination directory 
@@ -62,7 +62,7 @@ cd "$working_dir" # Return back to the working directory
 # For Colab[Install the Object Detection API (NOTE: This block takes about 10 minutes to finish executing)]
 # Need to do a temporary fix with PyYAML because Colab isn't able to install PyYAML v5.4.1
 pip install pyyaml==5.3
-pip install /content/models/research/
+pip install "${base_dir}/models/research/"
 # Need to downgrade to TF v2.8.0 due to Colab compatibility bug with TF v2.10 (as of 10/03/22)
 pip install tensorflow==2.8.0
 # Install CUDA version 11.0 (to maintain compatibility with TF v2.8.0)
@@ -103,12 +103,12 @@ fi
 # pip3 install /datasets/models/research/ 
 # python3 /dataset/models/research/object_detection/builders/model_builder_tf2_test.py
 
-# Check if the file exists and unzip it if it does
-# if [ -f "$base_dir/images.zip" ]; then
-#     echo "------UnZipping Started .........------"
-#     unzip -o "$base_dir/images.zip" -d "$base_dir/images/all"
-#     echo "------UnZipping Completed------"
-# fi
+Check if the file exists and unzip it if it does
+if [ -f "$base_dir/images.zip" ]; then
+    echo "------UnZipping Started .........------"
+    unzip -o "$base_dir/images.zip" -d "$base_dir/images/all"
+    echo "------UnZipping Completed------"
+fi
 
 
 ############------[Step 3: Run my Custom Dataset Spliter(train/validation/test)]-------############
@@ -177,20 +177,20 @@ pretrained_checkpoint=$(jq -r ".[\"$chosen_model\"].pretrained_checkpoint" "$mod
 base_pipeline_file=$(jq -r ".[\"$chosen_model\"].base_pipeline_file" "$model_config_file")
 # echo "MODEL INFO - name[$model_name]"  && echo " - pretrained_checkpoint[$pretrained_checkpoint]" && echo " - base_pipeline_file[$base_pipeline_file]"
 
-# # Download pre-trained model weights
-# download_tar="http://download.tensorflow.org/models/object_detection/tf2/20200711/$pretrained_checkpoint"
-# echo "Downloading pre-trained model weights: $download_tar"
-# curl -L -o "$models_dir/mymodel/$pretrained_checkpoint" "$download_tar"
+# Download pre-trained model weights
+download_tar="http://download.tensorflow.org/models/object_detection/tf2/20200711/$pretrained_checkpoint"
+echo "Downloading pre-trained model weights: $download_tar"
+curl -L -o "$models_dir/mymodel/$pretrained_checkpoint" "$download_tar"
 
-# # Extract pre-trained model weights
-# echo "Extracting pre-trained model weights: $pretrained_checkpoint"
-# tar -zxvf "$models_dir/mymodel/$pretrained_checkpoint" -C "$models_dir/mymodel/"
-# # tar -zxvf "$models_dir/$pretrained_checkpoint"
+# Extract pre-trained model weights
+echo "Extracting pre-trained model weights: $pretrained_checkpoint"
+tar -zxvf "$models_dir/mymodel/$pretrained_checkpoint" -C "$models_dir/mymodel/"
+# tar -zxvf "$models_dir/$pretrained_checkpoint"
 
-# # Download training configuration file for model
-# download_config="https://raw.githubusercontent.com/tensorflow/models/master/research/object_detection/configs/tf2/$base_pipeline_file"
-# echo "Downloading training configuration file: $download_config"
-# curl -L -o "$models_dir/mymodel/$base_pipeline_file" "$download_config"
+# Download training configuration file for model
+download_config="https://raw.githubusercontent.com/tensorflow/models/master/research/object_detection/configs/tf2/$base_pipeline_file"
+echo "Downloading training configuration file: $download_config"
+curl -L -o "$models_dir/mymodel/$base_pipeline_file" "$download_config"
 
 download_file_from_repo "$ACCESS_TOKEN" "$REPO_URL" "SampleTFSSDModelTraining/start_training.py"
 python3 start_training.py \
